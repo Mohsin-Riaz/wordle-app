@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+.container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: default;
+    display: flex;
+
+    flex-direction: column;
+    min-width: 376px;
+}
+
+header {
+    display: block;
+    background-color: rgb(29, 40, 49);
+    color: aliceblue;
+    border-left: 2px rgb(78, 90, 101) solid;
+    border-right: 2px rgb(78, 90, 101) solid;
+    font-size: 48px;
+    text-align: center;
+}
+
+#root {
+    height: 99dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background-color: rgb(43, 43, 43);
+    height: 99dvh;
+    margin: 2px;
+    overflow: hidden;
+}
+
+.guesses {
+    display: flex;
+    align-items: center;
+    color: aliceblue;
+    flex-direction: column;
+    height: 100%;
+    font-size: 1.25em;
+    gap: 0.25em;
+    /* margin-bottom: auto; */
+    place-content: space-evenly;
+}
+
+.guess {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+    min-width: 376px;
+    margin: 0.25em;
+}
+
+.guess-box {
+    border-radius: 0.25em;
+    background-color: rgb(21, 30, 38);
+    color: aliceblue;
+    border: 1px solid hsl(208, 100%, 97%, 0.2);
+    border-radius: 0.25rem;
+    width: 1em;
+    height: 1em;
+    padding: 0.85em;
+    margin: 0.25em;
+    text-align: center;
+    transition: background-color 200ms ease-in-out;
+}
+
+.no-match {
+    background-color: rgb(21, 30, 38);
+}
+
+.some-match {
+    background-color: rgb(205, 112, 59);
+}
+
+.exact-match {
+    background-color: rgb(51, 108, 51);
+}
+
+.current-guess {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: rgb(45, 59, 71);
+    color: aliceblue;
+    border-radius: 0.25em;
+    font-size: 2em;
+    place-content: center;
+    align-items: center;
+    height: 1.5em;
+    width: 90dvw;
+    box-shadow: 0px 0px 2px 2px hsl(208, 100%, 97%, 0.2);
+    /* flex-grow: 1; */
+    margin: auto;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: none;
+    align-content: flex-end;
+}
+
+.keyboard {
+    display: flex;
+    padding: 0.25em;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.keyboard-top-row {
+    margin-top: 0.5em;
+}
+
+.divider {
+    width: 0.25em;
+    display: inline-block;
+}
+
+.btn {
+    background-color: rgb(63, 103, 143);
+    color: aliceblue;
+    border: none;
+    border-radius: 0.25rem;
+    min-width: 3.5dvw;
+    padding: 0.85em;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: rgb(88, 120, 151);
+}
+
+.btn:disabled {
+    background-color: rgb(21, 30, 38);
+    color: rgb(68, 72, 74);
+}
+
+.btn:active {
+    background-color: rgb(21, 30, 38);
+    color: rgb(68, 72, 74);
+}
+
+.popup {
+    width: 20rem;
+    height: 25rem;
+    border-radius: 0.25em;
+    border: none;
+    box-shadow: rgb(0, 0, 0/0.3);
+    position: absolute;
+    align-self: center;
+    margin-top: 20vh;
+    background-color: rgba(240, 248, 255, 0.89);
+}
+
+.popup::backdrop {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.close-popup-button {
+    display: block;
+    font-family: 'Josefin Sans', sans-serif;
+    position: end;
+    padding: 0.25em;
+    width: 0.5em;
+    height: 0.5em;
+    font-size: 24px;
+
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+
+    justify-content: right;
+    margin: 15px;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.popup > p {
+    display: block;
+    padding: 1em;
+}
+
+.popup > h1 {
+    display: block;
+    padding: 0.25em;
+}
+
+.qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    visibility: hidden;
+    top: 30dvh;
+    left: 5em;
+    color: aliceblue;
+    max-width: 15dvw;
+    padding: 0.25em;
+    gap: 0.5em;
+    border: 1px solid aliceblue;
+    background-color: rgb(21, 30, 38);
+    border-radius: 0.25em;
+}
+
+.qrcode {
+    padding: 0.25em;
+    background-color: white;
+    max-width: inherit;
+}
+
+@media (width>360px) {
+    .current-guess {
+        min-width: 360px;
+        max-width: 400px;
+    }
+}
+
+@media (width>800px) {
+    .qr {
+        visibility: visible;
+    }
+}
