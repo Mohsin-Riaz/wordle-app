@@ -61,8 +61,10 @@ body {
     border-radius: 0.25rem;
     width: 1em;
     height: 1em;
-    padding: 0.85em;
-    margin: 0.25em;
+
+    padding: 0.6em;
+    margin: 0.1em;
+
     text-align: center;
     transition: background-color 200ms ease-in-out;
 }
@@ -216,6 +218,12 @@ body {
     .current-guess {
         min-width: 360px;
         max-width: 400px;
+    }
+}
+@media (width>385px) {
+    .guess-box {
+        padding: 0.85em;
+        margin: 0.25em;
     }
 }
 
