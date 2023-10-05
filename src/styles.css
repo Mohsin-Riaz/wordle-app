@@ -20,9 +20,10 @@ header {
 }
 
 #root {
-    height: 99dvh;
+    height: 90dvh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 body {
