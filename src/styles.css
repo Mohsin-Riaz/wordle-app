@@ -9,28 +9,33 @@
     min-width: 376px;
 }
 
+html {
+    height: 100%;
+}
+
 header {
     display: block;
     background-color: rgb(29, 40, 49);
     color: aliceblue;
     border-left: 2px rgb(78, 90, 101) solid;
     border-right: 2px rgb(78, 90, 101) solid;
-    font-size: 48px;
+    font-size: 32px;
     text-align: center;
 }
 
 #root {
-    height: 90dvh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 body {
     background-color: rgb(43, 43, 43);
-    height: 99dvh;
+    height: 95dvh;
     margin: 2px;
-    overflow: hidden;
+    box-sizing: border-box;
+    /* overflow: hidden; */
 }
 
 .guesses {
@@ -38,7 +43,7 @@ body {
     align-items: center;
     color: aliceblue;
     flex-direction: column;
-    height: 100%;
+    /* height: 100%; */
     font-size: 1.25em;
     gap: 0.25em;
     /* margin-bottom: auto; */
@@ -57,7 +62,7 @@ body {
     border-radius: 0.25em;
     background-color: rgb(21, 30, 38);
     color: aliceblue;
-    border: 1px solid hsl(208, 100%, 97%, 0.2);
+    border: 1px solid aliceblue;
     border-radius: 0.25rem;
     width: 1em;
     height: 1em;
@@ -224,6 +229,16 @@ body {
     .guess-box {
         padding: 0.85em;
         margin: 0.25em;
+    }
+
+    header {
+        display: block;
+        background-color: rgb(29, 40, 49);
+        color: aliceblue;
+        border-left: 2px rgb(78, 90, 101) solid;
+        border-right: 2px rgb(78, 90, 101) solid;
+        font-size: 48px;
+        text-align: center;
     }
 }
 
