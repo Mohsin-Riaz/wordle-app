@@ -3,46 +3,38 @@ on:
     push:
         branches:
             - main
-    # Allows you to run workflow manually from Actions tab
     workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN
 permissions:
     contents: read
     pages: write
     id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
     group: 'pages'
     cancel-in-progress: true
-
-env:
-    VITE_WORDS_API_BACKEND_URL: ${{ secrets.VITE_WORDS_API_BACKEND_URL }}
 
 jobs:
     build:
         name: Build
         runs-on: ubuntu-latest
+        environment: github-pages
         steps:
             - name: Log environment variable
               run: echo "VITE_WORDS_API_BACKEND_URL is $VITE_WORDS_API_BACKEND_URL"
-
             - name: Checkout repo
               uses: actions/checkout@v4
-
             - name: Setup Node
               uses: actions/setup-node@v4
               with:
                   node-version: 18
                   cache: 'npm'
-
             - name: Install dependencies
               run: npm ci
-
             - name: Build project
+              env:
+                  VITE_WORDS_API_BACKEND_URL: ${{ secrets.VITE_WORDS_API_BACKEND_URL }}
               run: npm run build
-
             - name: Upload production-ready build files
               uses: actions/upload-pages-artifact@v3
               with:
@@ -53,9 +45,8 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         environment:
-            name: gh-pages
+            name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
-
         steps:
             - name: Deploy to GitHub Pages
               id: deployment
