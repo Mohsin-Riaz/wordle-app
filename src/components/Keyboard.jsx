@@ -11,7 +11,6 @@ class Keyboard extends React.Component {
 
         this.deleteHandler = this.deleteHandler.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
-        console.log(props);
     }
 
     deleteHandler() {

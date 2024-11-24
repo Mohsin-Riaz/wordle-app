@@ -5,6 +5,7 @@ A React-based Wordle clone that interfaces with a custom REST backend for word v
 ## 🎮 Live Demo
 
 Visit the live application at: [http://mohsinriaz.ca/wordle-app](http://mohsinriaz.ca/wordle-app)
+
 Browse the backend at: [https://github.com/Mohsin-Riaz/wordle-backend](https://github.com/Mohsin-Riaz/wordle-backend)
 
 ## 🚀 Features
