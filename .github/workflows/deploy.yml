@@ -25,6 +25,9 @@ jobs:
         name: Build
         runs-on: ubuntu-latest
         steps:
+            - name: Log environment variable
+              run: echo "VITE_WORDS_API_BACKEND_URL is $VITE_WORDS_API_BACKEND_URL"
+
             - name: Checkout repo
               uses: actions/checkout@v4
 
