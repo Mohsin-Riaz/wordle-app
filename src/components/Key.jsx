@@ -4,7 +4,6 @@ class Key extends React.Component {
     constructor(props) {
         super(props);
         this.letter = props.letter;
-        this.match = 'default'; //?????????? match what
         this.state = { disabled: false };
     }
 
