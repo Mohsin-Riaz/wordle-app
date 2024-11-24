@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const backendUrl = !!import.meta.env.VITE_ENVIRONMENT
     ? import.meta.env.VITE_DEV_BACKEND
-    : VITE_WORDS_API_BACKEND_URL;
+    : import.meta.env.VITE_WORDS_API_BACKEND_URL;
 
 const getWord = async () => {
     const response = await axios.get(backendUrl + '/api/getword');
