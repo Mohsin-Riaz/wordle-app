@@ -4,6 +4,8 @@ const backendUrl = !!import.meta.env.VITE_ENVIRONMENT
     ? import.meta.env.VITE_DEV_BACKEND
     : import.meta.env.VITE_WORDS_API_BACKEND_URL;
 
+console.log(backendUrl);
+
 const getWord = async () => {
     const response = await axios.get(backendUrl + '/api/getword');
 
