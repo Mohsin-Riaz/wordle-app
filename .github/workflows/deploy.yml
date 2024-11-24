@@ -18,7 +18,7 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    VITE_API_URL: ${{ secrets.VITE_WORDS_API_BACKEND_URL }}
+    VITE_WORDS_API_BACKEND_URL: ${{ secrets.VITE_WORDS_API_BACKEND_URL }}
 
 jobs:
     build:
