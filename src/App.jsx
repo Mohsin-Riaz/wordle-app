@@ -1,19 +1,23 @@
 import { QRCodeSVG } from 'qrcode.react';
 import React, { useState } from 'react';
+import { checkWord, getWord } from './api/wordsApi';
 import Board from './components/Board';
-import selectedWord from './functions/word-select';
+import Dialog from './components/Dialog';
+import ErrorDialog from './components/Error';
+import Loading from './components/Loading';
 
 class App extends React.Component {
     constructor() {
         super();
-        this.selectedWord = selectedWord;
-        this.openDialog = false;
         this.state = {
-            state_openDialog: false,
-            state_currentGuess: '',
-            state_guessRow: 1,
-            state_playing: true,
-            state_winner: null,
+            isLoading: true,
+            isError: false,
+            selectedWord: '',
+            openDialog: false,
+            currentGuess: '',
+            guessRow: 1,
+            playing: true,
+            winner: false,
             guess1: '',
             guessClass1: [],
             guess2: '',
@@ -27,66 +31,117 @@ class App extends React.Component {
             guess6: '',
             guessClass6: [],
         };
+        this.closeDialog = this.closeDialog.bind(this);
         this.addCurrentGuess = this.addCurrentGuess.bind(this);
         this.removeCurrentGuess = this.removeCurrentGuess.bind(this);
         this.submitCurrentGuess = this.submitCurrentGuess.bind(this);
     }
 
+    componentDidMount() {
+        (async () => {
+            try {
+                const response = await getWord();
+
+                this.setState({
+                    selectedWord: response.data.word,
+                    isLoading: false,
+                });
+            } catch (error) {
+                console.error('Error fetching word:', error);
+                this.setState({
+                    isLoading: false,
+                    selectedWord: '',
+                });
+            }
+        })();
+    }
+
     addCurrentGuess(letter) {
-        const { state_currentGuess } = this.state;
-        if (state_currentGuess.length >= 6) return;
-        const update = state_currentGuess + letter;
-        this.setState((prev) => {
-            return { ...prev, state_currentGuess: update };
-        });
+        const currentGuess = this.state.currentGuess;
+        if (currentGuess.length >= 6) return;
+        const update = currentGuess + letter;
+        this.setState({ currentGuess: update });
     }
 
     removeCurrentGuess() {
-        const { state_currentGuess } = this.state;
-        if (state_currentGuess.length <= 0) return;
-        const update = state_currentGuess.slice(0, -1);
+        const currentGuess = this.state.currentGuess;
+        if (currentGuess.length <= 0) return;
+        const update = currentGuess.slice(0, -1);
         this.setState((prev) => {
-            return { ...prev, state_currentGuess: update };
+            return { ...prev, currentGuess: update };
         });
     }
 
-    submitCurrentGuess() {
-        const currentGuess = Array.from(this.state.state_currentGuess);
-        const word = Array.from(this.selectedWord);
+    async checkValidGuess(word) {
+        this.setState({
+            isLoading: true,
+        });
+
+        try {
+            const response = await checkWord(word);
+            return response;
+        } catch (error) {
+            console.log('not a valid word');
+            return false;
+        } finally {
+            this.setState({
+                isLoading: false,
+            });
+        }
+    }
+
+    async submitCurrentGuess() {
+        try {
+            const isValid = await this.checkValidGuess(this.state.currentGuess);
+
+            if (!isValid) {
+                this.setState({ isError: true });
+
+                setTimeout(() => {
+                    this.setState({ isError: false });
+                }, 1750); // Adjust timeout to match fade-out duration
+                return;
+            }
+        } catch (error) {
+            console.error('Error submitting guess:', error);
+            this.setState({ isLoading: false });
+        }
+        const currentGuess = Array.from(this.state.currentGuess);
+        const word = Array.from(this.state.selectedWord);
+        let winState = false;
+        let playState = true;
+        let newState = {};
+
         const checkArray = currentGuess.map((v, i) =>
             v === word[i] ? 2 : word.includes(v) ? 1 : 0
         );
 
         const classArray = this.updateClass(checkArray);
+        if (checkArray.every((v) => v === 2)) winState = true;
 
-        if (checkArray.every((v) => v === 2)) {
-            console.log('winner');
-            this.setState((prev) => ({
-                ...prev,
-                state_playing: false,
-                state_winner: true,
-                state_openDialog: true,
-            }));
-        }
+        if (this.state.guessRow >= 6 && winState == false) playState = false;
 
-        if (
-            this.state.state_guessRow >= 6 &&
-            this.state.state_winner === null
-        ) {
-            this.setState((prev) => ({
-                ...prev,
-                state_playing: false,
-                state_winner: false,
-                state_openDialog: true,
-            }));
+        if (winState == true) {
+            newState = {
+                playing: false,
+                winner: true,
+                openDialog: true,
+            };
+        } else if (playState == false) {
+            newState = {
+                playing: false,
+                winner: false,
+                openDialog: true,
+            };
         }
 
         this.setState((prev) => ({
             ...prev,
-            state_currentGuess: '',
-            state_guessRow: prev.state_guessRow + 1,
-            [`guess${this.state.state_guessRow}`]: prev.state_currentGuess,
-            [`guessClass${this.state.state_guessRow}`]: classArray,
+            currentGuess: '',
+            guessRow: prev.guessRow + 1,
+            [`guess${this.state.guessRow}`]: prev.currentGuess,
+            [`guessClass${this.state.guessRow}`]: classArray,
+            ...newState,
         }));
     }
 
@@ -99,52 +154,25 @@ class App extends React.Component {
         return updateArray.map((v) => classTypes[v]);
     }
 
+    closeDialog() {
+        this.setState({
+            openDialog: false,
+        });
+    }
+
     forceUpdateHandler() {
         this.forceUpdate();
     }
+
     render() {
         return (
             <>
-                <dialog
-                    className="popup"
-                    id="popup"
-                    open={this.state.state_openDialog}
-                >
-                    <button
-                        className="close-popup-button"
-                        onClick={() => {
-                            this.setState((prev) => ({
-                                ...prev,
-                                state_openDialog: false,
-                            }));
-                        }}
-                    >
-                        X
-                    </button>
-                    {this.state.state_winner ? (
-                        <>
-                            <h1>Congrats</h1>
-                            <p>
-                                You guessed correctly in{' '}
-                                <strong>
-                                    {this.state.state_guessRow < 3
-                                        ? `${this.state.state_guessRow - 1} try`
-                                        : `${
-                                              this.state.state_guessRow - 1
-                                          } tries`}
-                                </strong>
-                            </p>
-                        </>
-                    ) : (
-                        <>
-                            <h1>Sorry, you guessed incorrectly</h1>
-                            <p>
-                                The word was: {this.selectedWord}, refresh to
-                                try again with a new word.
-                            </p>
-                        </>
-                    )}
-                </dialog>
+                <ErrorDialog isError={this.state.isError} />
+                {this.state.isLoading ? (
+                    <Loading isLoading={this.state.isLoading} />
+                ) : (
+                    <Dialog {...this.state} closeDialog={this.closeDialog} />
+                )}
                 <div className="qr">
                     <div>This site is meant for mobile, try it!</div>
                     <QRCodeSVG

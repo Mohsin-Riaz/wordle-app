@@ -247,3 +247,78 @@ body {
         visibility: visible;
     }
 }
+
+.loading-popup {
+    min-width: 50%;
+    min-height: 50%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center spinner within dialog */
+}
+
+.loading-popup .spinner {
+    width: 20%;
+    height: 20%;
+    color: aliceblue;
+    animation: spin 750ms ease-out infinite; /* Rotating animation */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error-popup {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: none;
+    display: flex;
+    margin-top: 25%;
+    border-radius: 0.5em;
+    color: red;
+    font-size: larger;
+    opacity: 1;
+    transition: opacity 0.5s ease; /* Smooth transition */
+    pointer-events: none; /* Disable interaction when hidden */
+}
+
+/* When the dialog is visible */
+.error-popup[open] {
+    opacity: 1;
+    pointer-events: auto; /* Enable interaction */
+    animation: fadeIn 0.5s ease; /* Optional fade-in animation */
+}
+
+/* Base styles for the dialog */
+.error-popup {
+    opacity: 0;
+    pointer-events: none; /* Disable interaction when hidden */
+    transition: opacity 0.5s ease;
+}
+
+/* Fade-in */
+.fade-in {
+    opacity: 1;
+    pointer-events: auto; /* Enable interaction */
+}
+
+/* Fade-out */
+.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Disable interaction */
+}
+
+/* Fade-in keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

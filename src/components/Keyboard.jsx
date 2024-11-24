@@ -11,6 +11,7 @@ class Keyboard extends React.Component {
 
         this.deleteHandler = this.deleteHandler.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
+        console.log(props);
     }
 
     deleteHandler() {
@@ -26,10 +27,10 @@ class Keyboard extends React.Component {
     }
 
     render() {
-        const disableGame = !this.props.state_playing;
-        const disableDelete = !this.props.state_currentGuess.length;
-        const disableSubmit = this.props.state_currentGuess.length === 0;
-        const disableKeys = this.props.state_currentGuess.length >= 6;
+        const disableGame = !this.props.playing;
+        const disableDelete = !this.props.currentGuess.length;
+        const disableSubmit = this.props.currentGuess.length === 0;
+        const disableKeys = this.props.currentGuess.length >= 6;
 
         return (
             <>

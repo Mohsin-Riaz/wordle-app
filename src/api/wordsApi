@@ -1,0 +1,32 @@
+import axios from 'axios';
+
+const backendUrl = !!import.meta.env.VITE_ENVIRONMENT
+    ? import.meta.env.VITE_DEV_BACKEND
+    : VITE_WORDS_API_BACKEND_URL;
+
+const getWord = async () => {
+    const response = await axios.get(backendUrl + '/api/getword');
+
+    if (response.status != 200 || response.statusText != 'OK')
+        throw new Error(response.data);
+
+    return response;
+};
+
+const checkWord = async (word) => {
+    if (typeof word !== 'string') {
+        return false;
+    }
+
+    if (word.trim() === '') {
+        return false;
+    }
+
+    const response = await axios.get(
+        backendUrl + '/api/checkword/' + '?word=' + word
+    );
+
+    return response;
+};
+
+export { checkWord, getWord };

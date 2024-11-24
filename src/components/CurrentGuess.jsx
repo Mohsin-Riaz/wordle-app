@@ -11,7 +11,7 @@ class CurrentGuess extends React.Component {
     render() {
         return (
             <div className="current-guess" id="current-guess">
-                <div>{this.props.state_currentGuess || ''}</div>
+                <div>{this.props.currentGuess || ''}</div>
             </div>
         );
     }
