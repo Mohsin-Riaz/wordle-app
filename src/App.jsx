@@ -39,6 +39,7 @@ class App extends React.Component {
 
     componentDidMount() {
         (async () => {
+            if (!!this.state.selectedWord) return;
             try {
                 const response = await getWord();
 
@@ -50,7 +51,6 @@ class App extends React.Component {
                 console.error('Error fetching word:', error);
                 this.setState({
                     isLoading: false,
-                    selectedWord: '',
                 });
             }
         })();
@@ -99,7 +99,7 @@ class App extends React.Component {
 
                 setTimeout(() => {
                     this.setState({ isError: false });
-                }, 1750); // Adjust timeout to match fade-out duration
+                }, 1750);
                 return;
             }
         } catch (error) {
