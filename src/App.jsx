@@ -36,20 +36,17 @@ class App extends React.Component {
         this.removeCurrentGuess = this.removeCurrentGuess.bind(this);
         this.submitCurrentGuess = this.submitCurrentGuess.bind(this);
     }
-    componentDidMount() {
-        if (this.state.isLoading === false) return; // Only return if we've already loaded
 
+    componentDidMount() {
         (async () => {
             try {
                 const response = await getWord();
-                if (response && response.data) {
-                    this.setState({
-                        selectedWord: response.data.word,
-                        isLoading: false,
-                    });
-                }
+                this.setState({
+                    selectedWord: response.data, // Try this first if word is directly in response.data
+                    isLoading: false,
+                });
             } catch (error) {
-                console.log('Error fetching word:', error);
+                console.log('Component error:', error);
                 this.setState({
                     isLoading: false,
                     selectedWord: '',

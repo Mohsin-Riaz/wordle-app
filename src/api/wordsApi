@@ -5,12 +5,14 @@ const backendUrl = !!import.meta.env.VITE_ENVIRONMENT
     : import.meta.env.VITE_WORDS_API_BACKEND_URL;
 
 const getWord = async () => {
-    const response = await axios.get(backendUrl + '/api/getword');
-
-    if (response.status != 200 || response.statusText != 'OK')
-        throw new Error(response.data);
-
-    return response;
+    try {
+        const response = await axios.get(backendUrl + '/api/getword');
+        console.log('Word API response:', response.data); // Let's see what we get
+        return response;
+    } catch (error) {
+        console.log('Axios error:', error);
+        throw error;
+    }
 };
 
 const checkWord = async (word) => {
