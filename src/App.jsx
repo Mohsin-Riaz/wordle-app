@@ -48,7 +48,7 @@ class App extends React.Component {
                     isLoading: false,
                 });
             } catch (error) {
-                console.error('Error fetching word:', error);
+                console.error('Error fetching word:', JSON.stringify(error));
                 this.setState({
                     isLoading: false,
                 });
