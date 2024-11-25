@@ -42,7 +42,7 @@ class App extends React.Component {
             try {
                 const response = await getWord();
                 this.setState({
-                    selectedWord: response.data, // Try this first if word is directly in response.data
+                    selectedWord: response.data.word, // Access the word property
                     isLoading: false,
                 });
             } catch (error) {

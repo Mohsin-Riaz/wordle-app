@@ -7,7 +7,7 @@ const backendUrl = !!import.meta.env.VITE_ENVIRONMENT
 const getWord = async () => {
     try {
         const response = await axios.get(backendUrl + '/api/getword');
-        console.log('Word API response:', response.data); // Let's see what we get
+        console.log('Word API response:', response.data);
         return response;
     } catch (error) {
         console.log('Axios error:', error);
